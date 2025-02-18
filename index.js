@@ -1,9 +1,12 @@
 const express = require('express')
+const database = require('./config/database.js')
 require('dotenv').config();
-
 const app = express()
 const port = process.env.PORT
+
+database.connect()
 const route = require('./routes/client/index.route.js')
+
 
 // cấu hình file tĩnh (chia sẻ đc ra bên ngoài)
 app.use(express.static('public'))
