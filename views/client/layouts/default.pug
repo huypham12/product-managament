@@ -1,0 +1,12 @@
+html  
+  head  
+    title #{pageTitle}
+  body 
+    //- mấy cái header này dùng chung khá nhiều nên làm 1 cái dùng cho nhiều cái giống kiểu kế thừa
+    include ../partials/header.pug
+
+    block main
+
+     //- chỗ code này là khác nhau giữa các page, vào page nào thì mình đưa code của trang đó thay vào đây là được
+     //- cái này cx vậy
+    include ../partials/footer.pug
