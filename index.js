@@ -5,6 +5,8 @@ const app = express()
 const port = process.env.PORT
 const route = require('./routes/client/index.route.js')
 
+// cấu hình file tĩnh (chia sẻ đc ra bên ngoài)
+app.use(express.static('public'))
 
 // nếu đoạn này được thực thi thì nó sẽ chạy trước, cái route(app) đằng sau k đc thực thi nữa
 // app.set('views', './views')
