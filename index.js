@@ -1,12 +1,18 @@
-const express = require('express')
+const express = require('express') // sử dụng express vì framework này đã cấu hình route,... cho ăn sẵn:)
 const database = require('./config/database.js')
 require('dotenv').config();
+
+const systemconfig = require('./config/system.js')
 const app = express()
 const port = process.env.PORT
 
 database.connect()
-const route = require('./routes/client/index.route.js')
+const routeClient = require('./routes/client/index.route.js')
+const routeAdmin = require('./routes/admin/index.route.js')
 
+// app locals variable
+// dùng được ở all file pug
+app.locals.prefixAdmin = systemconfig.prefixAdmin
 
 // cấu hình file tĩnh (chia sẻ đc ra bên ngoài)
 app.use(express.static('public'))
@@ -23,7 +29,8 @@ app.use(express.static('public'))
 //   res.render('client/pages/products/product')
 // })
 
-route(app);
+routeClient(app)
+routeAdmin(app)
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)

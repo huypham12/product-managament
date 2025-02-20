@@ -1,0 +1,111 @@
+/* Reset một số mặc định của trình duyệt */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  height: 100%;
+}
+
+/* ===== Header ===== */
+header.header {
+  background-color: #343a40; /* màu nền tối */
+  color: #ffffff;
+  padding: 10px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header.header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header.header .inner-logo img {
+  max-height: 50px;
+}
+
+/* ===== Sidebar (Sider) ===== */
+.sider {
+  background-color: #212529; /* nền tối hơn cho sidebar */
+  color: #adb5bd; /* text màu sáng */
+  width: 250px;
+  min-height: calc(100vh - 60px); /* chiều cao toàn màn hình trừ phần header */
+  position: fixed;
+  top: 60px; /* chiều cao header */
+  left: 0;
+  padding-top: 20px;
+}
+
+.sider .inner-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sider .inner-menu ul li {
+  margin: 0;
+}
+
+.sider .inner-menu ul li a {
+  display: block;
+  padding: 12px 20px;
+  color: #adb5bd;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.sider .inner-menu ul li a:hover {
+  background-color: #343a40;
+  color: #ffffff;
+}
+
+/* ===== Main Content ===== */
+.body {
+  display: flex;
+  min-height: 100vh;
+  margin-top: 60px; /* chiều cao header */
+}
+
+.main {
+  flex: 1;
+  margin-left: 250px; /* để không bị trùng với sidebar */
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 60px);
+}
+
+/* ===== Footer ===== */
+footer {
+  background-color: #343a40;
+  color: #ffffff;
+  text-align: center;
+  padding: 10px 0;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .sider {
+    width: 200px;
+  }
+  .main {
+    margin-left: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  header.header .container {
+    flex-direction: column;
+  }
+  .sider {
+    width: 100%;
+    position: relative;
+    top: 0;
+    margin-bottom: 20px;
+  }
+  .main {
+    margin-left: 0;
+  }
+}
