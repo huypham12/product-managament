@@ -1,4 +1,27 @@
-extends ../../layouts/default.pug 
+extends ../../layouts/default.pug
 
-block main 
-  h1 Danh sách sản phẩm
+block main
+  .container
+    h2 Quản lý sản phẩm
+    table.table.table-striped.table-bordered
+      thead
+        tr
+          th STT
+          th Tiêu đề
+          th Hình ảnh
+          th Giá
+          th Trạng thái
+          th Hoạt động
+      tbody
+        each product, index in products
+          tr
+            td #{index + 1}
+            td #{product.title}
+            td 
+              img(src=product.thumbnail, alt=product.title, width="80")
+            td #{product.priceNew} VNĐ
+            td 
+              span.badge(class=product.status === 'Còn hàng' ? 'badge-success' : 'badge-danger') #{product.status}
+            td 
+              input(type="checkbox" checked=product.active)
+            

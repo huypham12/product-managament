@@ -1,110 +1,116 @@
-/* Reset một số mặc định của trình duyệt */
+/* Đảm bảo toàn bộ trang full height */
 html, body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
   height: 100%;
-}
-
-/* ===== Header ===== */
-header.header {
-  background-color: #343a40; /* màu nền tối */
-  color: #ffffff;
-  padding: 10px 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-header.header .container {
+  margin: 0;
+  font-family: Arial, sans-serif;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  overflow: hidden; /* Tránh bị cuộn ngang */
 }
 
-header.header .inner-logo img {
-  max-height: 50px;
+/* Layout tổng thể */
+.body {
+  display: flex;
+  flex-direction: row; /* Chia layout theo hàng ngang */
+  height: 100vh;
 }
 
-/* ===== Sidebar (Sider) ===== */
+/* Định dạng sidebar */
 .sider {
-  background-color: #212529; /* nền tối hơn cho sidebar */
-  color: #adb5bd; /* text màu sáng */
   width: 250px;
-  min-height: calc(100vh - 60px); /* chiều cao toàn màn hình trừ phần header */
+  height: 100vh;
   position: fixed;
-  top: 60px; /* chiều cao header */
+  top: 0;
   left: 0;
-  padding-top: 20px;
+  background-color: #343a40;
+  padding: 20px;
+  color: white;
+  z-index: 1000; /* Đảm bảo sidebar luôn trên cùng */
+  transition: transform 0.3s ease-in-out;
 }
 
+/* Định dạng menu trong sidebar */
 .sider .inner-menu ul {
   list-style: none;
   padding: 0;
-  margin: 0;
 }
 
-.sider .inner-menu ul li {
-  margin: 0;
+.sider .inner-menu li {
+  margin-bottom: 10px;
 }
 
-.sider .inner-menu ul li a {
-  display: block;
-  padding: 12px 20px;
-  color: #adb5bd;
+.sider .inner-menu a {
+  color: white;
   text-decoration: none;
-  transition: background-color 0.3s, color 0.3s;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background 0.3s;
 }
 
-.sider .inner-menu ul li a:hover {
+.sider .inner-menu a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Header (Cố định trên cùng) */
+.header {
   background-color: #343a40;
-  color: #ffffff;
-}
-
-/* ===== Main Content ===== */
-.body {
+  padding: 10px 20px;
+  color: white;
+  width: calc(100% - 250px);
+  position: fixed;
+  top: 0;
+  left: 250px;
+  height: 60px;
   display: flex;
-  min-height: 100vh;
-  margin-top: 60px; /* chiều cao header */
+  align-items: center;
+  justify-content: space-between;
+  z-index: 999;
 }
 
+/* Phần nội dung chính */
 .main {
   flex: 1;
-  margin-left: 250px; /* để không bị trùng với sidebar */
   padding: 20px;
-  background-color: #f8f9fa;
-  min-height: calc(100vh - 60px);
+  background-color: white;
+  min-height: 100vh;
+  margin-left: 250px; /* Để không bị sidebar che */
+  padding-top: 60px; /* Tránh bị header che mất nội dung */
+  overflow-y: auto;
 }
 
-/* ===== Footer ===== */
-footer {
-  background-color: #343a40;
-  color: #ffffff;
-  text-align: center;
-  padding: 10px 0;
-  width: 100%;
-  position: relative;
-  bottom: 0;
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
+/* Responsive */
+@media (max-width: 992px) {
   .sider {
     width: 200px;
   }
+
+  .header {
+    left: 200px;
+    width: calc(100% - 200px);
+  }
+
   .main {
     margin-left: 200px;
   }
 }
 
-@media (max-width: 576px) {
-  header.header .container {
-    flex-direction: column;
-  }
+@media (max-width: 768px) {
   .sider {
     width: 100%;
-    position: relative;
-    top: 0;
-    margin-bottom: 20px;
+    height: 100vh;
+    position: fixed;
+    transform: translateX(-100%); /* Ẩn sidebar khi màn hình nhỏ */
   }
+
+  .sider.active {
+    transform: translateX(0); /* Hiện sidebar khi click */
+  }
+
+  .header {
+    left: 0;
+    width: 100%;
+  }
+
   .main {
     margin-left: 0;
   }
