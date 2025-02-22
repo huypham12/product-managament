@@ -32,6 +32,12 @@ module.exports.product = async (req, res) => {
   if (req.query.status) {
     find.status = req.query.status
   }
+
+  // Tìm kiếm theo từ khóa (title chứa từ khóa)
+  if (req.query.keyword) {
+    find.title = { $regex: req.query.keyword, $options: 'i' }; // lấy những title có chứa keyword
+  }
+
   if (req.query.status) {
     const index = filterStatus.findIndex(item =>
       item.status == req.query.status
@@ -55,7 +61,8 @@ module.exports.product = async (req, res) => {
     {
       pageTitle: 'Products',
       products: newProducts,
-      filterStatus: filterStatus
+      filterStatus: filterStatus,
+      keyword: req.query.keyword
     }
   )
 }

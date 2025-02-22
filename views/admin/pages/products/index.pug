@@ -6,9 +6,27 @@ block content
   .card.mb-3 
     .card-header Lọc-Tìm kiếm 
     .card-body 
-      each item in filterStatus
-        button(class=`btn btn-sm m1-1 btn-outline-success ${item.class}`
-        button-status=item.status) #{item.name}
+      .row
+        .col-6
+          each item in filterStatus
+            button(class=`btn btn-sm m1-1 btn-outline-success ${item.class}`
+            button-status=item.status) #{item.name}
+        .col-6 
+          form(id='form-search')
+            .input-group 
+              input(
+                type='text'
+                placeholder='Nhập từ khóa'
+                name='keyword'
+                class='form-control'
+                value=keyword
+              )
+            input-group-append  
+              button(
+                class='btn btn-success'
+                type='submit'
+              ) Tìm
+
 
   table.table.table-striped.mt-4
     thead
