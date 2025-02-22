@@ -1,14 +1,18 @@
 //- code của phần header để ở đây xong tí dùng include để nhúng vào file default
 
-header.header
-  .container
-    .row.align-items-center
-      .col-3
-        .inner-logo
-          a(href='/admin/dashboard')
-            img(src='/img/Lazada.svg.png', alt='logo')
+header.navbar.navbar-dark.bg-primary.fixed-top
+  .container-fluid.d-flex.justify-content-between.align-items-center
+    a.navbar-brand.d-flex.align-items-center(href="/admin/dashboard")
+      img(src="/img/Lazada.svg.png" alt="Lazada Logo" width="40" height="40" class="mr-2")
+      |  Lazada Admin Panel
+    button#sidebarToggle.btn.btn-outline-light(type="button") ☰
 
-      .col-9
-        .inner-menu
-          ul
-            
+//- Wrapper chứa sidebar và nội dung chính
+.wrapper
+  //- Sidebar
+  aside#sidebar.sidebar
+    ul.nav.flex-column
+      li.nav-item
+        a.nav-link(href="/admin/dashboard") Dashboard
+      li.nav-item
+        a.nav-link(href="/admin/products") Product

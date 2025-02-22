@@ -1,27 +1,36 @@
 extends ../../layouts/default.pug
 
-block main
-  .container
-    h2 Quản lý sản phẩm
-    table.table.table-striped.table-bordered
-      thead
+block content
+  h1 Quản lý Sản phẩm
+
+  .card.mb-3 
+    .card-header Lọc-Tìm kiếm 
+    .card-body 
+      each item in filterStatus
+        button(class=`btn btn-sm m1-1 btn-outline-success ${item.class}`
+        button-status=item.status) #{item.name}
+
+  table.table.table-striped.mt-4
+    thead
+      tr
+        th STT
+        th Title
+        th Img
+        th Price
+        th Status
+        th Hành động
+    tbody
+      //- Duyệt qua mảng products được truyền từ backend
+      each product, index in products
         tr
-          th STT
-          th Tiêu đề
-          th Hình ảnh
-          th Giá
-          th Trạng thái
-          th Hoạt động
-      tbody
-        each product, index in products
-          tr
-            td #{index + 1}
-            td #{product.title}
-            td 
-              img(src=product.thumbnail, alt=product.title, width="80")
-            td #{product.priceNew} VNĐ
-            td 
-              span.badge(class=product.status === 'Còn hàng' ? 'badge-success' : 'badge-danger') #{product.status}
-            td 
-              input(type="checkbox" checked=product.active)
-            
+          td #{index + 1}
+          td #{product.title}
+          td 
+            img(src=product.thumbnail, alt=product.title, width="80")
+          td #{product.priceNew} VNĐ
+          td 
+            //- Nếu trạng thái là "active" thì badge màu xanh
+            span.badge(class=product.status === 'active' ? 'badge-primary' : 'badge-danger') #{product.status}
+          td 
+            a.btn.btn-sm.btn-warning(href=`/admin/products/edit/${product.id}`) Sửa
+            a.btn.btn-sm.btn-danger.ml-2(href=`/admin/products/delete/${product.id}` onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')") Xóa

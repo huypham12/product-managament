@@ -1,117 +1,86 @@
-/* Đảm bảo toàn bộ trang full height */
-html, body {
-  height: 100%;
+/* Tổng thể */
+body {
   margin: 0;
+  padding-top: 56px; /* Để không bị che bởi header */
   font-family: Arial, sans-serif;
-  display: flex;
-  overflow: hidden; /* Tránh bị cuộn ngang */
 }
 
-/* Layout tổng thể */
-.body {
-  display: flex;
-  flex-direction: row; /* Chia layout theo hàng ngang */
-  height: 100vh;
+/* Header cố định trên cùng */
+.navbar {
+  height: 56px;
 }
 
-/* Định dạng sidebar */
-.sider {
+/* Sidebar */
+.sidebar {
   width: 250px;
   height: 100vh;
   position: fixed;
-  top: 0;
+  top: 56px; /* Để không đè lên header */
   left: 0;
-  background-color: #343a40;
-  padding: 20px;
-  color: white;
-  z-index: 1000; /* Đảm bảo sidebar luôn trên cùng */
-  transition: transform 0.3s ease-in-out;
+  background: #f8f9fa;
+  padding-top: 20px;
+  transition: all 0.3s;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Định dạng menu trong sidebar */
-.sider .inner-menu ul {
-  list-style: none;
+/* Khi sidebar ẩn */
+.sidebar.hidden {
+  width: 0;
   padding: 0;
+  overflow: hidden;
 }
 
-.sider .inner-menu li {
-  margin-bottom: 10px;
+/* Sidebar link */
+.sidebar .nav-link {
+  padding: 10px 15px;
+  color: #333;
 }
 
-.sider .inner-menu a {
-  color: white;
-  text-decoration: none;
-  display: block;
-  padding: 10px;
-  border-radius: 5px;
-  transition: background 0.3s;
+.sidebar .nav-link:hover {
+  background: #ddd;
 }
 
-.sider .inner-menu a:hover {
-  background: rgba(255, 255, 255, 0.2);
+/* Màu xanh cho trạng thái active */
+.sidebar .nav-link.active {
+  background: #007bff; /* Màu xanh */
+  color: #fff; /* Chữ trắng để dễ đọc */
 }
 
-/* Header (Cố định trên cùng) */
-.header {
-  background-color: #343a40;
-  padding: 10px 20px;
-  color: white;
-  width: calc(100% - 250px);
-  position: fixed;
-  top: 0;
-  left: 250px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 999;
-}
-
-/* Phần nội dung chính */
-.main {
-  flex: 1;
+/* Nội dung chính */
+#main-content {
+  margin-left: 250px;
   padding: 20px;
-  background-color: white;
-  min-height: 100vh;
-  margin-left: 250px; /* Để không bị sidebar che */
-  padding-top: 60px; /* Tránh bị header che mất nội dung */
-  overflow-y: auto;
+  transition: all 0.3s;
 }
 
-/* Responsive */
-@media (max-width: 992px) {
-  .sider {
-    width: 200px;
-  }
-
-  .header {
-    left: 200px;
-    width: calc(100% - 200px);
-  }
-
-  .main {
-    margin-left: 200px;
-  }
+/* Khi sidebar ẩn, nội dung chính mở rộng */
+#main-content.expanded {
+  margin-left: 0;
 }
 
+/* Trạng thái sản phẩm */
+.badge-success {
+  background-color: #28a745; /* Màu xanh lá */
+}
+
+.badge-danger {
+  background-color: #dc3545; /* Màu đỏ */
+}
+
+/* Màu xanh cho trạng thái active */
+.badge-primary {
+  background-color: #097231; /* Màu xanh */
+  color: #fff;
+}
+
+/* Responsive: Khi màn hình nhỏ, sidebar ẩn */
 @media (max-width: 768px) {
-  .sider {
-    width: 100%;
-    height: 100vh;
-    position: fixed;
-    transform: translateX(-100%); /* Ẩn sidebar khi màn hình nhỏ */
+  .sidebar {
+    width: 0;
+    overflow: hidden;
   }
 
-  .sider.active {
-    transform: translateX(0); /* Hiện sidebar khi click */
-  }
-
-  .header {
-    left: 0;
-    width: 100%;
-  }
-
-  .main {
+  #main-content {
     margin-left: 0;
   }
 }
