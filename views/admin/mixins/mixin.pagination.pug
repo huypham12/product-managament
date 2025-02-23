@@ -1,0 +1,27 @@
+mixin pagination(pagigation)  
+  //- pagination phân trang    
+  nav(aria-label='Page navigation example')
+  ul.pagination
+    li.page-item
+      if(pagigation.currentPage > 1)
+        a(
+          class="page-link"
+          href=`?page=${pagigation.currentPage-1}`
+          aria-label="Previous"
+        )
+          span(aria-hidden='true') &laquo;
+
+    //- duyệt số trang
+    -for(let i=1;i<=pagigation.totalPage;i++)
+      li(class=`page-item ${pagigation.currentPage == i ? "active" : ""}`)
+        a(class='page-link'
+        href=`?page=${i}`) #{i}
+
+    li.page-item
+      if(pagigation.currentPage < pagigation.totalPage)
+        a(
+          class="page-link"
+          href=`?page=${pagigation.currentPage+1}`
+          aria-label="Next"
+        )
+          span(aria-hidden='true') &raquo;

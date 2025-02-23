@@ -1,3 +1,13 @@
+/*note
+
+code theo kiểu csr (client side redering) là phía back end sẽ dùng nodejs gì đấy để viết logic xử lý dữ liệu, sau đó tạo ra api đưa cho font end redering thành giao diện với react js gì đấy. Còn code theo kiểu ssr thì là reder luôn trên server bằng pug gì đấy
+project này đag code kiểu ssr nghĩa là gần như fullstack cmnr:)))
+
+end note */
+
+
+
+
 const express = require('express') // sử dụng express vì framework này đã cấu hình route,... cho ăn sẵn:)
 const database = require('./config/database.js')
 require('dotenv').config();

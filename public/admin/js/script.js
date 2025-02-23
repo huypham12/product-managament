@@ -41,3 +41,19 @@ if (formSeach) {
   })
 }
 // end form search
+
+
+// pagination
+// ddm mình dùng thẻ a là link sang rồi thì cần đéo gì xử lý cái sự kiện click nút để đổi cái href cho dài:))))
+// const linkPagination = document.querySelectorAll("[link-pagination]")
+// console.log(linkPagination.length)
+// if (linkPagination.length > 0) {
+//   linkPagination.forEach(link => {
+//     link.addEventListener('click', () => {
+//       const page = link.getAttribute("link-pagination")
+//       url.searchParams.set('page', page)
+//       window.location.set(url.href)
+//     })
+//   })
+// }
+// end pagination

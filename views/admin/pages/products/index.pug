@@ -1,6 +1,7 @@
 extends ../../layouts/default.pug
 include ../../mixins/mixin.filterStatus.pug
 include ../../mixins/mixin.search.pug
+include ../../mixins/mixin.pagination.pug
 
 block content
   h1 Quản lý Sản phẩm
@@ -31,7 +32,7 @@ block content
           td #{index + 1}
           td #{product.title}
           td 
-            img(src=product.thumbnail, alt=product.title, width="80")
+            img(src=product.thumbnail, alt=product.title, width="40")
           td #{product.priceNew} VNĐ
           td 
             //- Nếu trạng thái là "active" thì badge màu xanh
@@ -39,3 +40,5 @@ block content
           td 
             a.btn.btn-sm.btn-warning(href=`/admin/products/edit/${product.id}`) Sửa
             a.btn.btn-sm.btn-danger.ml-2(href=`/admin/products/delete/${product.id}` onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')") Xóa
+
+  +pagination(pagigation)
