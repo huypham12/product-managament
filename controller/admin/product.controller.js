@@ -1,29 +1,11 @@
 
 // lấy data
 const Product = require('../../models/product.model.js')
-
+const filterStatusHelper = require('../../helper/filterStatus.js')
 
 
 // GET /admin/products
 module.exports.product = async (req, res) => {
-  let filterStatus = [
-    {
-      name: 'Tất cả',
-      status: '',
-      class: ''
-    },
-    {
-      name: 'Hoạt động',
-      status: 'active',
-      class: ''
-    },
-    {
-      name: 'Dừng hoạt động',
-      status: 'inactive',
-      class: ''
-    }
-  ]
-
   let find = {
     deleted: false
   }
@@ -33,19 +15,14 @@ module.exports.product = async (req, res) => {
     find.status = req.query.status
   }
 
+
   // Tìm kiếm theo từ khóa (title chứa từ khóa)
   if (req.query.keyword) {
     find.title = { $regex: req.query.keyword, $options: 'i' }; // lấy những title có chứa keyword
   }
 
-  if (req.query.status) {
-    const index = filterStatus.findIndex(item =>
-      item.status == req.query.status
-    )
-    filterStatus[index].class = 'active'
-  } else {
-    filterStatus[0].class = 'active'
-  }
+  const filterStatus = filterStatusHelper(req.query)
+
 
   console.log(req.query.status)
   const products = await Product.find(find)
