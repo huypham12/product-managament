@@ -2,25 +2,12 @@
 // lấy data
 const Product = require('../../models/product.model.js')
 const filterStatusHelper = require('../../helper/filterStatus.js')
-
+const seachHelper = require('../../helper/seach.js')
 
 // GET /admin/products
 module.exports.product = async (req, res) => {
-  let find = {
-    deleted: false
-  }
 
-  // nếu cái query nó có status thì sẽ thêm cái status đấy vào hàm find để lọc
-  if (req.query.status) {
-    find.status = req.query.status
-  }
-
-
-  // Tìm kiếm theo từ khóa (title chứa từ khóa)
-  if (req.query.keyword) {
-    find.title = { $regex: req.query.keyword, $options: 'i' }; // lấy những title có chứa keyword
-  }
-
+  const find = seachHelper(req.query)
   const filterStatus = filterStatusHelper(req.query)
 
 
@@ -33,7 +20,7 @@ module.exports.product = async (req, res) => {
   })
 
 
-  // xuất ra giao diện
+  // xuất ra giao diện, những biến trong này có thể dùng đc ở các file pug
   res.render('admin/pages/products/index.pug',
     {
       pageTitle: 'Products',
