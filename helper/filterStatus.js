@@ -28,5 +28,7 @@ module.exports = (query) => {
     filterStatus[0].class = 'active'
   }
 
+
+  // trả về  cái mảng status dùng bên controller, mảng này gồm 3 trạng thái là none, active, inactive
   return filterStatus
 }

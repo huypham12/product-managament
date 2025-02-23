@@ -41,4 +41,5 @@ block content
             a.btn.btn-sm.btn-warning(href=`/admin/products/edit/${product.id}`) Sửa
             a.btn.btn-sm.btn-danger.ml-2(href=`/admin/products/delete/${product.id}` onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')") Xóa
 
-  +pagination(pagigation)
+  //- toàn bộ code của phần phân trang đc xử lý trong hàm này
+  +pagination(pagigation) 

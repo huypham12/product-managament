@@ -1,5 +1,7 @@
 mixin pagination(pagigation)  
   //- pagination phân trang    
+  //- biến pagination được controller render ra để sử dụng, những cái file nào mà đc cái file pug trong 
+  //- phần controller kia include hay extends thì đều có thể sử dụng các biến được render 
   nav(aria-label='Page navigation example')
   ul.pagination
     li.page-item

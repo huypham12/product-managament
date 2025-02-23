@@ -11,5 +11,7 @@ module.exports = (query, find) => {
   if (query.keyword) {
     find.title = { $regex: query.keyword, $options: 'i' }; // lấy những title có chứa keyword
   }
+
+  // mảng này chứa các điều kiện để lọc data
   return find
 }

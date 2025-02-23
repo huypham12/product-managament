@@ -1,4 +1,5 @@
 mixin filterStatus(filterStatus)
+  //- duyệt qua tất cả các status đã đc bên controller gửi cho để in ra giao diện
   each item in filterStatus
     button(class=`btn btn-sm m1-1 btn-outline-success ${item.class}`
     button-status=item.status) #{item.name}

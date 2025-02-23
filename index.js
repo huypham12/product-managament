@@ -9,7 +9,7 @@ end note */
 
 
 const express = require('express') // sử dụng express vì framework này đã cấu hình route,... cho ăn sẵn:)
-const database = require('./config/database.js')
+const database = require('./config/database.js') // kết nối db
 require('dotenv').config();
 
 const systemconfig = require('./config/system.js')
