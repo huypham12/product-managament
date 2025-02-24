@@ -38,6 +38,7 @@ module.exports.product = async (req, res) => {
 
 
   // xuất ra giao diện, những biến trong này có thể dùng đc ở file pug bên dưới
+  // server response về cho client
   res.render('admin/pages/products/index.pug',
     {
       pageTitle: 'Products',
@@ -48,3 +49,39 @@ module.exports.product = async (req, res) => {
     }
   )
 }
+
+
+// change status
+// khi click vào nút active hoặc inactive thì nó sẽ
+// request db phải update lại từ active thành inactive hoặc
+// ngược lại, khi click thì sẽ lấy được id và trạng thái
+// hiện tại để làm đk tìm kiếm để update trên db
+// ở route sẽ sử dụng patch vì patch an toàn hơn get khi 
+// cập nhật dữ liệu, get chỉ lấy thôi
+// ví dụ như m dùng get thì khi người dùng tự nhập cái 
+// link đấy vào trình duyệt thì nghĩa là server hiểu 
+// client đã yc cập nhật dữ liệu, như thế quá nguy hiểm
+// vì trình duyệt mặc định chỉ hỗ trợ GET khi truyền link
+// trực tiếp giống kiểu mấy cái thẻ <a> đều là GET hết
+// còn PATCH thì kể cả có biết link thì cx k update đc db 
+// vì trình duyệt k hỗ trợ
+
+module.exports.changeStatus = async (req, res) => {
+  const status = req.params.status
+  const id = req.params.id // params dùng để lấy dữ liệu động từ url (mấy cái dạng như này :status/:id)
+
+
+  //chờ để cập nhật lại dữ liệu
+  await Product.updateOne
+    (
+      { _id: id },
+      { status: status }
+    )
+
+
+  // thực ra là tới đoạn bên trên là db thay đổi rồi
+  // còn đoạn này là để load lại trang cập nhật giao diện thôi
+  res.redirect(req.get("Referrer") || "/") // chuyển hướng luôn lại trang cũ
+}
+
+// end change status

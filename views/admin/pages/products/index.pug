@@ -36,10 +36,36 @@ block content
           td #{product.priceNew} VNĐ
           td 
             //- Nếu trạng thái là "active" thì badge màu xanh
-            span.badge(class=product.status === 'active' ? 'badge-primary' : 'badge-danger') #{product.status}
+            if(product.status == 'active')
+              button(
+                type='button'
+                data-status=product.status
+                data-id=product.id 
+                button-change-status
+                class='btn btn-sm btn-primary'
+              ) Active
+            else  
+              button(
+                type='button'
+                data-status=product.status
+                data-id=product.id 
+                button-change-status
+                class='btn btn-sm btn-danger'
+              ) Inactive
           td 
             a.btn.btn-sm.btn-warning(href=`/admin/products/edit/${product.id}`) Sửa
             a.btn.btn-sm.btn-danger.ml-2(href=`/admin/products/delete/${product.id}` onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')") Xóa
 
   //- toàn bộ code của phần phân trang đc xử lý trong hàm này
   +pagination(pagigation) 
+
+  //- thu thập dữ liệu từ người dùng
+  //- action  hành động gửi dữ liệu lên server
+  form(
+    action=""
+    method="POST"
+    id="form-change-status"
+    data-path=`${prefixAdmin}/products/change-status`
+  ) 
+
+  script(src='/admin/js/product.js')

@@ -6,14 +6,14 @@ project này đag code kiểu ssr nghĩa là gần như fullstack cmnr:)))
 end note */
 
 
-
-
 const express = require('express') // sử dụng express vì framework này đã cấu hình route,... cho ăn sẵn:)
+const methodOverride = require('method-override')
 const database = require('./config/database.js') // kết nối db
 require('dotenv').config();
 
 const systemconfig = require('./config/system.js')
 const app = express()
+app.use(methodOverride('_method'))
 const port = process.env.PORT
 
 database.connect()
