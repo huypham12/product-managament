@@ -1,7 +1,8 @@
 /* Tổng thể */
 body {
   margin: 0;
-  padding-top: 56px; /* Để không bị che bởi header */
+  padding-top: 56px;
+  /* Để không bị che bởi header */
   font-family: Arial, sans-serif;
 }
 
@@ -15,7 +16,8 @@ body {
   width: 250px;
   height: 100vh;
   position: fixed;
-  top: 56px; /* Để không đè lên header */
+  top: 56px;
+  /* Để không đè lên header */
   left: 0;
   background: #f8f9fa;
   padding-top: 20px;
@@ -42,8 +44,10 @@ body {
 
 /* Màu xanh cho trạng thái active */
 .sidebar .nav-link.active {
-  background: #007bff; /* Màu xanh */
-  color: #fff; /* Chữ trắng để dễ đọc */
+  background: #007bff;
+  /* Màu xanh */
+  color: #fff;
+  /* Chữ trắng để dễ đọc */
 }
 
 /* Nội dung chính */
@@ -60,16 +64,19 @@ body {
 
 /* Trạng thái sản phẩm */
 .badge-success {
-  background-color: #28a745; /* Màu xanh lá */
+  background-color: #28a745;
+  /* Màu xanh lá */
 }
 
 .badge-danger {
-  background-color: #dc3545; /* Màu đỏ */
+  background-color: #dc3545;
+  /* Màu đỏ */
 }
 
 /* Màu xanh cho trạng thái active */
 .badge-primary {
-  background-color: #097231; /* Màu xanh */
+  background-color: #097231;
+  /* Màu xanh */
   color: #fff;
 }
 

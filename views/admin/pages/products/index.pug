@@ -2,6 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/mixin.filterStatus.pug
 include ../../mixins/mixin.search.pug
 include ../../mixins/mixin.pagination.pug
+include ../../mixins/mixin.form-change-multi.pug
 
 block content
   h1 Quản lý Sản phẩm
@@ -15,10 +16,13 @@ block content
         .col-6 
           +search(keyword)
 
+      +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
 
-  table.table.table-striped.mt-4
+  table.table.table-striped.mt-4(checkbox-multi)
     thead
       tr
+        th  
+          input(type="checkbox" name="checkall")
         th STT
         th Title
         th Img
@@ -29,6 +33,12 @@ block content
       //- Duyệt qua mảng products được truyền từ backend
       each product, index in products
         tr
+          td  
+            input(
+              type="checkbox" 
+              name="id" 
+              value=product.id
+              )
           td #{index + 1}
           td #{product.title}
           td 

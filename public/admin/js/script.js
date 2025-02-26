@@ -57,3 +57,73 @@ if (formSeach) {
 //   })
 // }
 // end pagination
+
+
+
+// checkbox
+
+
+// xử lý việc click chọn tất cả
+const checkboxMulti = document.querySelector("[checkbox-multi]")
+if (checkboxMulti) {
+  const inputCheckAll = checkboxMulti.querySelector("input[name='checkall']")
+  const inputsId = checkboxMulti.querySelectorAll("input[name='id']")
+
+  inputCheckAll.addEventListener('click', () => {
+    if (inputCheckAll.checked) {
+      // nút all click thì duyệt để tất cả đều tích chọn
+      inputsId.forEach(input => {
+        input.checked = true
+      })
+    } else {
+      inputsId.forEach(input => {
+        input.checked = false
+      })
+    }
+  })
+
+  inputsId.forEach(input => {
+    input.addEventListener('click', () => {
+      const countChecked = checkboxMulti.querySelectorAll("input[name='id']:checked").length
+
+      if (countChecked == inputsId.length) {
+        inputCheckAll.checked = true
+      } else {
+        inputCheckAll.checked = false
+      }
+
+    })
+  })
+
+}
+// end checkbox
+
+
+// form change multi
+
+const formChangeMulti = document.querySelector("[form-change-multi]")
+if (formChangeMulti) {
+  formChangeMulti.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const inputsChecked = checkboxMulti.querySelectorAll("input[name='id']:checked")
+    console.log(inputsChecked)
+    console.log(inputsChecked.length)
+    if (inputsChecked.length == 0) {
+      alert('chọn ít nhất 1 bản ghi')
+    } else {
+      let ids = []
+      const inputsId = formChangeMulti.querySelector("input[name='ids'")
+
+      inputsChecked.forEach(input => {
+        const id = input.value // lấy id của các sp từ ô input đã đc gán sẵn
+        ids.push(id)
+      })
+
+      inputsId.value = ids.join(',')
+      console.log(inputsId.value)
+      formChangeMulti.submit()
+    }
+  })
+}
+
+// end form change multi

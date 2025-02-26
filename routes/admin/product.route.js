@@ -14,4 +14,7 @@ router.get('/', controller.product)
 
 // truyền động status và id
 router.patch('/change-status/:status/:id', controller.changeStatus)
+
+router.patch('/change-multi/', controller.changeMulti)
+
 module.exports = router
