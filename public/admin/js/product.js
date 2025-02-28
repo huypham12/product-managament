@@ -41,7 +41,7 @@ if (buttonDelete.length > 0 && formDeleteItem) {
       const isConfirm = confirm('chắc chắn xóa?')
       if (isConfirm) {
         const id = button.getAttribute('data-id')
-        const action = `${path}/${id}?_method=DELETE`
+        const action = `${path}/${id}?_method=PATCH`
         console.log(action)
         formDeleteItem.action = action
         formDeleteItem.submit()

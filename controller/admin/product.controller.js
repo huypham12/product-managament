@@ -117,7 +117,8 @@ module.exports.changeMulti = async (req, res) => {
 
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id
-  await Product.deleteOne({ _id: id })
+  console.log(id)
+  await Product.updateOne({ _id: id }, { $set: { deleted: true } })
 
   res.redirect(req.get("Referrer") || "/")
 }
