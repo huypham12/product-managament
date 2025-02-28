@@ -13,7 +13,6 @@ if (buttonStatus.length > 0) {
       } else {
         url.searchParams.delete('status')
       }
-      console.log(url.href)
       window.location.href = url.href // chuyển hướng trang
     })
   })
@@ -36,7 +35,6 @@ if (formSeach) {
     else {
       url.searchParams.delete('keyword')
     }
-    console.log(url.href)
     window.location.href = url.href // chuyển hướng trang
   })
 }
@@ -106,8 +104,6 @@ if (formChangeMulti) {
   formChangeMulti.addEventListener('submit', (e) => {
     e.preventDefault()
     const inputsChecked = checkboxMulti.querySelectorAll("input[name='id']:checked")
-    console.log(inputsChecked)
-    console.log(inputsChecked.length)
     if (inputsChecked.length == 0) {
       alert('chọn ít nhất 1 bản ghi')
     } else {
@@ -120,7 +116,6 @@ if (formChangeMulti) {
       })
 
       inputsId.value = ids.join(',')
-      console.log(inputsId.value)
       formChangeMulti.submit()
     }
   })

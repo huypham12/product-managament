@@ -63,8 +63,12 @@ block content
                 class='btn btn-sm btn-danger'
               ) Inactive
           td 
-            a.btn.btn-sm.btn-warning(href=`/admin/products/edit/${product.id}`) Sửa
-            a.btn.btn-sm.btn-danger.ml-2(href=`/admin/products/delete/${product.id}` onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?')") Xóa
+            button(class="btn btn-warning btn-sm") Sửa
+            button(
+              class="btn btn-danger btn-sm m1-1"
+              button-delete
+              data-id=product.id
+            ) Xóa
 
   //- toàn bộ code của phần phân trang đc xử lý trong hàm này
   +pagination(pagigation) 
@@ -77,5 +81,15 @@ block content
     id="form-change-status"
     data-path=`${prefixAdmin}/products/change-status`
   ) 
+
+  form(
+  action=""
+  method="POST"
+  id="form-delete-item"
+  data-path=`${prefixAdmin}/products/delete`
+  ) 
+
+
+
 
   script(src='/admin/js/product.js')
