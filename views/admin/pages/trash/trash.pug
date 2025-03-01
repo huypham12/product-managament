@@ -1,0 +1,81 @@
+extends ../../layouts/default.pug
+
+block content
+  h1 Thùng rác
+
+  table.table.table-striped.mt-4(checkbox-multi)
+    thead
+      tr
+        th  
+          input(type="checkbox" name="checkall")
+        th STT
+        th Title
+        th Img
+        th Price
+        th Status
+        th Hành động
+    tbody
+      //- Duyệt qua mảng products được truyền từ backend
+      each product, index in products
+        tr
+          td  
+            input(
+              type="checkbox" 
+              name="id" 
+              value=product.id
+              )
+          td #{index + 1}
+          td #{product.title}
+          td 
+            img(src=product.thumbnail, alt=product.title, width="40")
+          td #{product.priceNew} VNĐ
+          td 
+            //- Nếu trạng thái là "active" thì badge màu xanh
+            if(product.status == 'active')
+              button(
+                type='button'
+                data-status=product.status
+                data-id=product.id 
+                button-change-status
+                class='btn btn-sm btn-primary'
+              ) Active
+            else  
+              button(
+                type='button'
+                data-status=product.status
+                data-id=product.id 
+                button-change-status
+                class='btn btn-sm btn-danger'
+              ) Inactive
+          td 
+            button(
+              class="btn btn-warning btn-sm button-restore"
+              data-id=product.id
+              ) Khôi phục
+            button(
+              class="btn btn-danger btn-sm m1-1 button-delete"
+              data-id=product.id
+            ) Xóa vĩnh viễn
+
+
+
+  //- thu thập dữ liệu từ người dùng
+  //- action  hành động gửi dữ liệu lên server
+  form(
+    action=""
+    method="POST"
+    id="form-restore-item"
+    data-path=`${prefixAdmin}/trash/restore`
+  ) 
+
+  form(
+  action=""
+  method="POST"
+  id="form-delete-item"
+  data-path=`${prefixAdmin}/trash/delete`
+  ) 
+
+
+
+
+  script(src='/admin/js/trash.js')
