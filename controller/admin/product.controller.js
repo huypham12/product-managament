@@ -29,7 +29,7 @@ module.exports.product = async (req, res) => {
   // skip bỏ qua n tài liệu trước đó nên không thể nhận giá trị âm, ví dụ tổng chỉ có 10 trang nhưng m đag ở trang thứ 11
   // thì skip là 11-1 * limit theo công thức thì sẽ bỏ qua hết các sp nên trang trống, tuy nhiên nếu m đag ở trang 0 thì skip 
   // theo công thức sẽ bị âm nên k thể tồn tại trang 0. đm lú lù lu, phải hiểu các hàm nó chạy như nào mới code mượt đc
-  const products = await Product.find(find).limit(objectPagination.limitItem).skip(objectPagination.skip)
+  const products = await Product.find(find).sort({ position: "asc" }).limit(objectPagination.limitItem).skip(objectPagination.skip)
 
   const newProducts = products.map(item => {
     item.priceNew = (item.price * (100 - item.discountPercentage) / 100).toFixed()
@@ -81,6 +81,7 @@ module.exports.changeStatus = async (req, res) => {
 
   // thực ra là tới đoạn bên trên là db thay đổi rồi
   // còn đoạn này là để load lại trang cập nhật giao diện thôi
+  req.flash("success", "cập nhật trạng thái thành công!")
   res.redirect(req.get("Referrer") || "/") // chuyển hướng luôn lại trang cũ
 }
 
@@ -104,9 +105,21 @@ module.exports.changeMulti = async (req, res) => {
         { status: 'inactive' }
       )
       break
+    case 'change-position':
+      for (const item of ids) {
+        let [id, position] = item.split("-")
+        position = parseInt(position)
+        await Product.updateOne(
+          { _id: id },
+          { position: position }
+        )
+      }
+      break
     default:
       break;
   }
+
+  req.flash("success", "cập nhật trạng thái thành công!")
   res.redirect(req.get("Referrer") || "/")
 }
 
@@ -124,6 +137,7 @@ module.exports.deleteItem = async (req, res) => {
       deletedAt: new Date()
     })
 
+  req.flash("success", "xóa sản phẩm thành công!")
   res.redirect(req.get("Referrer") || "/")
 }
 
@@ -133,12 +147,13 @@ module.exports.deleteItem = async (req, res) => {
 // xóa nhiều
 module.exports.deleteAll = async (req, res) => {
   const ids = req.body.ids.split(',')
-  await Product.updateMany({ _id: { $in: ids } }, 
+  await Product.updateMany({ _id: { $in: ids } },
     {
-    deleted: true,
-    deletedAt: new Date()
-  })
+      deleted: true,
+      deletedAt: new Date()
+    })
 
+  req.flash("success", "xóa sản phẩm thành công!")
   res.redirect(req.get("Referrer") || "/")
 }
 

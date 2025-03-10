@@ -3,10 +3,12 @@ include ../../mixins/mixin.filterStatus.pug
 include ../../mixins/mixin.search.pug
 include ../../mixins/mixin.pagination.pug
 include ../../mixins/mixin.form-change-multi.pug
+include ../../mixins/mixin.alert.pug
 
 block content
   h1 Quản lý Sản phẩm
 
+  +alert-success(4000)
   .card.mb-3 
     .card-header Lọc-Tìm kiếm 
     .card-body 
@@ -18,6 +20,7 @@ block content
 
       +form-change-multi()
 
+
   table.table.table-striped.mt-4(checkbox-multi)
     thead
       tr
@@ -27,6 +30,7 @@ block content
         th Title
         th Img
         th Price
+        th Vị trí
         th Status
         th Hành động
     tbody
@@ -44,6 +48,14 @@ block content
           td 
             img(src=product.thumbnail, alt=product.title, width="40")
           td #{product.priceNew} VNĐ
+          td 
+            input(
+              type="number"
+              value=product.position 
+              style="width: 60px"
+              min="1"
+              name="position"
+            )
           td 
             //- Nếu trạng thái là "active" thì badge màu xanh
             if(product.status == 'active')

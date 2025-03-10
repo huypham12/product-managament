@@ -15,8 +15,16 @@ const methodOverride = require('method-override')
 const database = require('./config/database.js') // kết nối db
 require('dotenv').config();
 
+const session = require('express-session')
+const cookieParser = require('cookie-parser')
+const flash = require('express-flash')
+
+
 const systemconfig = require('./config/system.js')
 const app = express()
+app.use(cookieParser("kjete"));
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
 app.use(methodOverride('_method'))
 const port = process.env.PORT
 app.use(bodyParser.urlencoded({ extended: false }))

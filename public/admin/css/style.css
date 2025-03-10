@@ -91,3 +91,32 @@ body {
     margin-left: 0;
   }
 }
+
+/* show Alert */
+.alert-hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+/* end show alert */
+
+button[close-alert] {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  color: #555;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+button[close-alert]:hover {
+  color: red;
+  transform: scale(1.2);
+}
+
+button[close-alert]:focus {
+  outline: none;
+}

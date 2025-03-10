@@ -107,14 +107,14 @@ if (formChangeMulti) {
     e.preventDefault()
     const typeChange = e.target.elements.type.value
     console.log(typeChange)
-    if(typeChange == 'delete-all'){
+    if (typeChange == 'delete-all') {
       const isConfirm = confirm('Bạn chắc chắn xóa các sản phẩm này')
-      if(!confirm) return
+      if (!confirm) return
       // thay đổi action đúng với cái route đã tạo
       formChangeMulti.action = path + `/delete-all?_method=PATCH`
-    } else{
+    } else {
       const isConfirm = confirm('Bạn chắc chắn thay đổi trạng thái các sản phẩm này')
-      if(!confirm) return
+      if (!confirm) return
       formChangeMulti.action = path + `/change-multi?_method=PATCH`
     }
 
@@ -126,8 +126,17 @@ if (formChangeMulti) {
       const inputsId = formChangeMulti.querySelector("input[name='ids'")
 
       inputsChecked.forEach(input => {
-        const id = input.value // lấy id của các sp từ ô input đã đc gán sẵn
-        ids.push(id)
+
+        if (typeChange == "change-position") {
+          const id = input.value
+          // thoát thẻ con để đến thẻ cha rồi vào thẻ con khác
+          const position = input.closest('tr').querySelector("input[name='position']").value
+          console.log(position)
+          ids.push(`${id}-${position}`)
+        } else {
+          const id = input.value // lấy id của các sp từ ô input đã đc gán sẵn
+          ids.push(id)
+        }
       })
 
       inputsId.value = ids.join(',')
@@ -137,5 +146,22 @@ if (formChangeMulti) {
 }
 
 // end form change multi
+
+
+// show alert
+
+const showAlert = document.querySelector("[show-alert]")
+if(showAlert){
+  const timeout = parseInt(showAlert.getAttribute("data-time"))
+  setTimeout(() => {
+    showAlert.classList.add("alert-hidden")
+  }, timeout);
+}
+// end show alert
+
+
+document.querySelector("[close-alert]").addEventListener("click", function () {
+  this.parentElement.classList.add("alert-hidden");
+});
 
 
