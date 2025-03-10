@@ -1,14 +1,17 @@
-mixin form-change-multi(path)
+mixin form-change-multi()
   form(
-    action=path
+    action=""
     method="POST"
-    form-change-multi 
+    form-change-multi
+    data-path=`${prefixAdmin}/products`
   )
     .d-flex.align-items-start   
       .form-group     
         select(name="type" class="form-control")
+          option(disabled selected) Chọn hành động
           option(value="active") Active 
           option(value="inactive") Inactive
+          option(value="delete-all") Xóa nhiều
       .form-group 
         input(
           type="text"

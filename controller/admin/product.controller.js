@@ -118,9 +118,28 @@ module.exports.changeMulti = async (req, res) => {
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id
   console.log(id)
-  await Product.updateOne({ _id: id }, { $set: { deleted: true } })
+  await Product.updateOne({ _id: id },
+    {
+      deleted: true,
+      deletedAt: new Date()
+    })
 
   res.redirect(req.get("Referrer") || "/")
 }
 
 // end delete item
+
+
+// xóa nhiều
+module.exports.deleteAll = async (req, res) => {
+  const ids = req.body.ids.split(',')
+  await Product.updateMany({ _id: { $in: ids } }, 
+    {
+    deleted: true,
+    deletedAt: new Date()
+  })
+
+  res.redirect(req.get("Referrer") || "/")
+}
+
+// kết thúc xóa nhiều

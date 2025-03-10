@@ -35,7 +35,7 @@ const formDeleteItem = document.querySelector('#form-delete-item')
 // gì thì sẽ đc cập nhật
 if (buttonDelete.length > 0 && formDeleteItem) {
   const path = formDeleteItem.getAttribute('data-path')
-
+  console.log(path)
   buttonDelete.forEach(button => {
     button.addEventListener("click", () => {
       const isConfirm = confirm('chắc chắn xóa?')

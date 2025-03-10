@@ -100,9 +100,24 @@ if (checkboxMulti) {
 // form change multi
 
 const formChangeMulti = document.querySelector("[form-change-multi]")
+const path = formChangeMulti.getAttribute('data-path')
+console.log(path)
 if (formChangeMulti) {
   formChangeMulti.addEventListener('submit', (e) => {
     e.preventDefault()
+    const typeChange = e.target.elements.type.value
+    console.log(typeChange)
+    if(typeChange == 'delete-all'){
+      const isConfirm = confirm('Bạn chắc chắn xóa các sản phẩm này')
+      if(!confirm) return
+      // thay đổi action đúng với cái route đã tạo
+      formChangeMulti.action = path + `/delete-all?_method=PATCH`
+    } else{
+      const isConfirm = confirm('Bạn chắc chắn thay đổi trạng thái các sản phẩm này')
+      if(!confirm) return
+      formChangeMulti.action = path + `/change-multi?_method=PATCH`
+    }
+
     const inputsChecked = checkboxMulti.querySelectorAll("input[name='id']:checked")
     if (inputsChecked.length == 0) {
       alert('chọn ít nhất 1 bản ghi')
@@ -122,3 +137,5 @@ if (formChangeMulti) {
 }
 
 // end form change multi
+
+
