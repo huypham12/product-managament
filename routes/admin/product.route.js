@@ -1,6 +1,11 @@
 const express = require('express')
 const router = express.Router()
+const multer = require('multer')
+const storageMulter = require('../../helper/storage.Multer.js')
+const upload = multer({ storage: storageMulter()})
 const controller = require('../../controller/admin/product.controller.js')
+
+
 
 
 // mấy cái route này là để client giao tiếp với server
@@ -23,5 +28,9 @@ router.patch('/delete-all/', controller.deleteAll)
 
 router.get('/create', controller.create)
 
-router.post('/create', controller.createPost)
+router.post('/create',
+  upload.single('thumbnail')
+  , controller.createPost)
+
+
 module.exports = router
