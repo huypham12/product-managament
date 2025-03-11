@@ -20,4 +20,8 @@ router.patch('/change-multi/', controller.changeMulti)
 router.patch('/delete/:id', controller.deleteItem)
 
 router.patch('/delete-all/', controller.deleteAll)
+
+router.get('/create', controller.create)
+
+router.post('/create', controller.createPost)
 module.exports = router

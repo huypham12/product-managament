@@ -158,3 +158,32 @@ module.exports.deleteAll = async (req, res) => {
 }
 
 // kết thúc xóa nhiều
+
+
+// create a new product
+// GET /admin/products/create
+module.exports.create = async (req, res) => {
+  res.render('admin/pages/products/create.pug',
+    {
+      pageTitle: "Create new product"
+    })
+}
+
+module.exports.createPost = async (req, res) => {
+  req.body.price = parseInt(req.body.price)
+  req.body.stock = parseInt(req.body.stock)
+  req.body.discountPercentage = parseInt(req.body.discountPercentage)
+  if (req.body.position == '') {
+    const countProducts = await Product.countDocuments()
+    req.body.position = countProducts + 1
+  } else{
+    req.body.position = parseInt(req.body.position)
+  }
+  const product = new Product(req.body)
+  await product.save()
+
+  res.redirect(req.get("Referrer") || "/")
+}
+
+
+// END create a new product
