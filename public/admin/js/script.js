@@ -100,9 +100,9 @@ if (checkboxMulti) {
 // form change multi
 
 const formChangeMulti = document.querySelector("[form-change-multi]")
-const path = formChangeMulti.getAttribute('data-path')
-console.log(path)
 if (formChangeMulti) {
+  const path = formChangeMulti.getAttribute('data-path')
+  console.log(path)
   formChangeMulti.addEventListener('submit', (e) => {
     e.preventDefault()
     const typeChange = e.target.elements.type.value
@@ -151,7 +151,7 @@ if (formChangeMulti) {
 // show alert
 
 const showAlert = document.querySelector("[show-alert]")
-if(showAlert){
+if (showAlert) {
   const timeout = parseInt(showAlert.getAttribute("data-time"))
   setTimeout(() => {
     showAlert.classList.add("alert-hidden")
@@ -160,8 +160,33 @@ if(showAlert){
 // end show alert
 
 
-document.querySelector("[close-alert]").addEventListener("click", function () {
-  this.parentElement.classList.add("alert-hidden");
-});
+
+// tắt thông báo
+const closeAlertBtn = document.querySelector("[close-alert]");
+if (closeAlertBtn) {
+  closeAlertBtn.addEventListener("click", function () {
+    this.parentElement.classList.add("alert-hidden");
+  });
+}
+
+// kết thúc tắt thông báo
+
+// preview img
+const uploadImage = document.querySelector("[upload-image]");
+if (uploadImage) {
+  const uploadImageInput = document.querySelector("[upload-image-input]");
+  const uploadImagePreview = document.querySelector("[upload-image-preview]");
+
+  uploadImageInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      uploadImagePreview.src = URL.createObjectURL(file);
+    }
+  });
+}
+
+
+// end preview img
+
 
 

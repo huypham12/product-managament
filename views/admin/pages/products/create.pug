@@ -65,7 +65,10 @@ block content
       ) 
 
 
-    div(class='form-group')
+    div(
+      class='form-group'
+      upload-image
+      )
       label(for="thumbnail") Ảnh 
       input(
         type='file'
@@ -73,7 +76,13 @@ block content
         id='thumbnail'
         name='thumbnail'
         accept='image/*'
+        upload-image-input
       ) 
+      img(
+        class='img-preview'
+        src=""
+        upload-image-preview
+      )
 
 
     div(class='form-group')
