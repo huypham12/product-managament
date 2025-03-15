@@ -1,6 +1,10 @@
 extends ../../layouts/default.pug
+include ../../mixins/mixin.alert.pug
 
 block content
+
+  +alert-error(4000)
+  +alert-success(4000)
   h1 Trang tạo mới sp
 
   form(

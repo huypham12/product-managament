@@ -174,21 +174,23 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.createPost = async (req, res) => {
-  console.log(req.file)
   req.body.price = parseInt(req.body.price)
   req.body.stock = parseInt(req.body.stock)
   req.body.discountPercentage = parseInt(req.body.discountPercentage)
   if (req.body.position == '') {
     const countProducts = await Product.countDocuments()
     req.body.position = countProducts + 1
-  } else{
+  } else {
     req.body.position = parseInt(req.body.position)
   }
 
-  req.body.thumbnail = `/uploads/${req.file.filename}`
+  if (req.file) {
+    req.body.thumbnail = `/uploads/${req.file.filename}`
+  }
   const product = new Product(req.body)
   await product.save()
 
+ req.flash('success', 'thêm sp thành công')
   res.redirect(req.get("Referrer") || "/")
 }
 
