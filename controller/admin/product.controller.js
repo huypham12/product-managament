@@ -190,9 +190,57 @@ module.exports.createPost = async (req, res) => {
   const product = new Product(req.body)
   await product.save()
 
- req.flash('success', 'thêm sp thành công')
+  req.flash('success', 'thêm sp thành công')
   res.redirect(req.get("Referrer") || "/")
 }
 
 
 // END create a new product
+
+// GET edit product
+
+module.exports.edit = async (req, res) => {
+  const id = await req.params.id
+  const item = await Product.findById({ _id: id })
+  res.render(
+    'admin/pages/products/edit.pug',
+    {
+      item: item
+    }
+  )
+}
+
+// PATCH edit product
+module.exports.editItem = async (req, res) => {
+  const id = req.params.id.replace(":", ""); // Xóa dấu ":" nếu có
+
+
+  // Chuyển đổi dữ liệu từ req.body
+  req.body.price = parseInt(req.body.price) || 0;
+  req.body.stock = parseInt(req.body.stock) || 0;
+  req.body.discountPercentage = parseInt(req.body.discountPercentage) || 0;
+  req.body.position = parseInt(req.body.position) || 1;
+
+  if (req.file) {
+    req.body.thumbnail = `/uploads/${req.file.filename}`;
+  }
+
+  console.log("ID nhận được:", id);
+  console.log("Dữ liệu nhận được:", req.body);
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(id, req.body, { new: true });
+
+    if (!updatedProduct) {
+      req.flash("error", "Không tìm thấy sản phẩm!");
+      return res.redirect("back");
+    }
+
+    req.flash("success", "Cập nhật sản phẩm thành công!");
+    res.redirect("back");
+  } catch (error) {
+    console.error("Lỗi khi cập nhật sản phẩm:", error);
+    req.flash("error", "Có lỗi xảy ra, vui lòng thử lại!");
+    res.redirect("back");
+  }
+};
