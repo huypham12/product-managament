@@ -1,0 +1,48 @@
+extends ../../layouts/default.pug 
+include ../../mixins/box-head.pug
+
+block main
+  .container.mt-5
+    .row
+      .col-md-5
+        .card.shadow-lg
+          if item.thumbnail
+            img.card-img-top.p-3(src=item.thumbnail, alt=item.title)
+          else
+            img.card-img-top.p-3(src='/images/no-image.png', alt='No Image')
+
+      .col-md-7
+        .card.border-0.shadow-lg
+          .card-body
+            h1.text-primary= item.title
+            hr
+
+            p.lead.text-muted= item.description
+
+            .d-flex.align-items-center.gap-3
+              h4.text-danger.font-weight-bold Giá: 
+              h4.text-danger.font-weight-bold #{item.price} VNĐ
+
+            if item.discountPercentage
+              .d-flex.align-items-center.gap-3.mt-2
+                h5.text-success.font-weight-bold Giảm giá: 
+                span.badge.bg-warning.text-dark #{item.discountPercentage}%
+
+            .d-flex.align-items-center.gap-3.mt-2
+              h5.text-dark.font-weight-bold Số lượng còn: 
+              span.badge.bg-secondary #{item.stock}
+
+            .d-flex.align-items-center.gap-3.mt-2
+              h5.text-dark.font-weight-bold Vị trí: 
+              span.badge.bg-info.text-white #{item.position}
+
+            .d-flex.align-items-center.gap-3.
+
+            .mt-4
+              a.btn.btn-secondary.btn-sm(href=`${prefixAdmin}/products`) Quay lại
+
+              a.btn.btn-primary.btn-sm(href=`${prefixAdmin}/products/edit/${item._id}`) Chỉnh sửa
+
+
+
+    script(src='/admin/js/product.js')
