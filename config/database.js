@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 require('dotenv').config()
 const mongo_uri = process.env.MONGO_URI
+
 module.exports.connect = async () => {
   try {
     await mongoose.connect(mongo_uri)
@@ -11,3 +12,4 @@ module.exports.connect = async () => {
 }
 
 
+// BzxwdIeug8BFQPY7
