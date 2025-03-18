@@ -228,6 +228,7 @@ module.exports.editItem = async (req, res) => {
   console.log("ID nhận được:", id);
   console.log("Dữ liệu nhận được:", req.body);
 
+
   try {
     const updatedProduct = await Product.findByIdAndUpdate(id, req.body, { new: true });
 
@@ -244,3 +245,20 @@ module.exports.editItem = async (req, res) => {
     res.redirect("back");
   }
 };
+
+
+module.exports.detail = async (req, res) => {
+  try{
+    const id = req.params.id
+    const item = await Product.findById(id)
+
+    res.render('admin/pages/products/detail.pug', {
+      pageTitle: 'detail',
+      item: item
+    })
+  }
+  catch(error){
+    console.log(error)
+    res.redirect('back')
+  }
+}

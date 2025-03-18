@@ -11,7 +11,7 @@ end note */
 
 const express = require('express') // sử dụng express vì framework này đã cấu hình route,... cho ăn sẵn:)
 const bodyParser = require('body-parser')
-const methodOverride = require('method-override')
+const methodOverride = require('method-override') // giúp sử dụng được patch,... vì trình duyệt chỉ hỗ trợ get, post
 const database = require('./config/database.js') // kết nối db
 require('dotenv').config();
 
@@ -28,6 +28,8 @@ app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 app.use(methodOverride('_method'))
 const port = process.env.PORT
+
+//Xử lý dữ liệu từ form (cho phép object, array phức tạp).
 app.use(bodyParser.urlencoded({ extended: false }))
 
 database.connect()
