@@ -102,11 +102,9 @@ if (checkboxMulti) {
 const formChangeMulti = document.querySelector("[form-change-multi]")
 if (formChangeMulti) {
   const path = formChangeMulti.getAttribute('data-path')
-  console.log(path)
   formChangeMulti.addEventListener('submit', (e) => {
     e.preventDefault()
     const typeChange = e.target.elements.type.value
-    console.log(typeChange)
     if (typeChange == 'delete-all') {
       const isConfirm = confirm('Bạn chắc chắn xóa các sản phẩm này')
       if (!confirm) return
@@ -131,7 +129,7 @@ if (formChangeMulti) {
           const id = input.value
           // thoát thẻ con để đến thẻ cha rồi vào thẻ con khác
           const position = input.closest('tr').querySelector("input[name='position']").value
-          console.log(position)
+
           ids.push(`${id}-${position}`)
         } else {
           const id = input.value // lấy id của các sp từ ô input đã đc gán sẵn
@@ -184,8 +182,36 @@ if (uploadImage) {
     }
   });
 }
-
-
 // end preview img
 
+// SORT
+const sort = document.querySelector('[sort]')
+if (sort) {
+  let url = new URL(window.location.href)
+  const sortSelect = sort.querySelector('[sort-select]')
+  const sortClear = sort.querySelector('[sort-clear]')
+  sortSelect.addEventListener('change', (e) => {
+    const value = e.target.value
+    const [sortKey, sortValue] = value.split('-')
+    console.log(sortKey)
+    url.searchParams.set('sortKey', sortKey)
+    url.searchParams.set('sortValue', sortValue)
+    window.location.href = url.href
+  })
 
+  sortClear.addEventListener('click', () => {
+    url.searchParams.delete('sortKey')
+    url.searchParams.delete('sortValue')
+    window.location.href = url.href
+  })
+
+  const sortKey = url.searchParams.get('sortKey')
+  const sortValue = url.searchParams.get('sortValue')
+  if (sortKey && sortValue) {
+    const stringSort = `${sortKey}-${sortValue}`
+    const opitionSelected = sortSelect.querySelector(`option[value='${stringSort}']`)
+
+    opitionSelected.selected = true
+  }
+}
+//END SORT

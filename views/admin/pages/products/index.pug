@@ -4,6 +4,7 @@ include ../../mixins/mixin.search.pug
 include ../../mixins/mixin.pagination.pug
 include ../../mixins/mixin.form-change-multi.pug
 include ../../mixins/mixin.alert.pug
+include ../../mixins/mixin.sort.pug
 
 block content
   h1 Quản lý Sản phẩm
@@ -24,6 +25,13 @@ block content
           href=`${prefixAdmin}/products/create`
           class='btn btn-outline-success'
         ) + Thêm mới
+
+  .card.mb-3 
+    .card-header Sắp xếp  
+    .card-body 
+      .row   
+        .col-4 
+          +sort()
 
 
   table.table.table-striped.mt-4(checkbox-multi)

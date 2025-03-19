@@ -59,7 +59,22 @@ module.exports.product = async (req, res) => {
   // skip bỏ qua n tài liệu trước đó nên không thể nhận giá trị âm, ví dụ tổng chỉ có 10 trang nhưng m đag ở trang thứ 11
   // thì skip là 11-1 * limit theo công thức thì sẽ bỏ qua hết các sp nên trang trống, tuy nhiên nếu m đag ở trang 0 thì skip 
   // theo công thức sẽ bị âm nên k thể tồn tại trang 0. đm lú lù lu, phải hiểu các hàm nó chạy như nào mới code mượt đc
-  const products = await Product.find(find).sort({ position: "asc" }).limit(objectPagination.limitItem).skip(objectPagination.skip)
+
+  let sort = {}
+  if (req.query.sortKey && req.query.sortValue) {
+    if (req.query.sortKey == 'title') {
+      sort.title = 1
+    } else {
+      sort[req.query.sortKey] = req.query.sortValue
+    }
+  } else {
+    sort.position = 'asc'
+  }
+
+
+
+
+  const products = await Product.find(find).sort(sort).limit(objectPagination.limitItem).skip(objectPagination.skip)
 
   const newProducts = products.map(item => {
     item.priceNew = (item.price * (100 - item.discountPercentage) / 100).toFixed()
@@ -81,7 +96,7 @@ module.exports.product = async (req, res) => {
 
 // [PATCH] CHANGE STATUS
 
-// change status
+// CHANGE STATUS  
 // khi click vào nút active hoặc inactive thì nó sẽ
 // request db phải update lại từ active thành inactive hoặc
 // ngược lại, khi click thì sẽ lấy được id và trạng thái
@@ -112,7 +127,6 @@ module.exports.changeStatus = async (req, res) => {
   req.flash("success", "cập nhật trạng thái thành công!")
   res.redirect(req.get("Referrer") || "/") // chuyển hướng luôn lại trang cũ
 }
-
 //  END CHANGE STATUS
 
 
