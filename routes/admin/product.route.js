@@ -8,6 +8,8 @@ const validate = require('../../validate/admin/product.validate.js')
 
 
 
+
+
 // mấy cái route này là để client giao tiếp với server
 // thông qua route trình duyệt gửi request và server sẽ 
 // response lại cho trình duyệt

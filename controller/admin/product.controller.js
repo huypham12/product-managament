@@ -5,12 +5,38 @@ const filterStatusHelper = require('../../helper/filterStatus.js')
 const searchHelper = require('../../helper/seach.js')
 const Pagination = require('../../helper/pagination.js')
 
+const cloudinary = require('cloudinary').v2
+const streamifier = require('streamifier')
+const multer = require('multer')
+const upload = multer({ storage: multer.memoryStorage() });
+
+
+
+// CONFIG CLOUDINARY
+cloudinary.config({
+  cloud_name: 'dol6rg6uv',
+  api_key: '826667749224898',
+  api_secret: 'korR1pGCAhpRBQSLkHA0r2RZRJg' // Click 'View API Keys' above to copy your API secret
+});
+
+async function uploadImage(imagePath) {
+  try {
+    const result = await cloudinary.uploader.upload(imagePath, {
+      folder: 'samples', // Optional: specify the folder to store images
+    });
+    console.log('Image uploaded successfully:', result.url);
+    return result.url;
+  } catch (error) {
+    console.error('Error uploading image:', error);
+  }
+}
+// link config https://dev.to/devops_den/how-to-integrate-cloudinary-in-nodejs-37a9?utm_source=chatgpt.com
+// END CONFIG CLOUDINARY
 
 
 
 // GET /admin/products
 module.exports.product = async (req, res) => {
-
   let find = {
     deleted: false
   }
@@ -40,7 +66,6 @@ module.exports.product = async (req, res) => {
     return item;
   })
 
-
   // xuất ra giao diện, những biến trong này có thể dùng đc ở file pug bên dưới
   // server response về cho client
   res.render('admin/pages/products/index.pug',
@@ -54,6 +79,7 @@ module.exports.product = async (req, res) => {
   )
 }
 
+// [PATCH] CHANGE STATUS
 
 // change status
 // khi click vào nút active hoặc inactive thì nó sẽ
@@ -74,7 +100,6 @@ module.exports.changeStatus = async (req, res) => {
   const status = req.params.status
   const id = req.params.id // params dùng để lấy dữ liệu động từ url (mấy cái dạng như này :status/:id)
 
-
   //chờ để cập nhật lại dữ liệu
   await Product.updateOne
     (
@@ -82,16 +107,17 @@ module.exports.changeStatus = async (req, res) => {
       { status: status }
     )
 
-
   // thực ra là tới đoạn bên trên là db thay đổi rồi
   // còn đoạn này là để load lại trang cập nhật giao diện thôi
   req.flash("success", "cập nhật trạng thái thành công!")
   res.redirect(req.get("Referrer") || "/") // chuyển hướng luôn lại trang cũ
 }
 
-// end change status
+//  END CHANGE STATUS
 
-// change multi
+
+
+// [PATCH] CHANGE MULTI
 
 module.exports.changeMulti = async (req, res) => {
   const type = req.body.type
@@ -126,12 +152,10 @@ module.exports.changeMulti = async (req, res) => {
   req.flash("success", "cập nhật trạng thái thành công!")
   res.redirect(req.get("Referrer") || "/")
 }
+// END CHANGE MULTI
 
-// end change multi
 
-
-// delete item
-
+// [PATCH] DELETE ITEM
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id
   console.log(id)
@@ -144,11 +168,10 @@ module.exports.deleteItem = async (req, res) => {
   req.flash("success", "xóa sản phẩm thành công!")
   res.redirect(req.get("Referrer") || "/")
 }
+// END DELETE ITEM
 
-// end delete item
 
-
-// xóa nhiều
+// [PATCH] DELETE ALL
 module.exports.deleteAll = async (req, res) => {
   const ids = req.body.ids.split(',')
   await Product.updateMany({ _id: { $in: ids } },
@@ -160,19 +183,18 @@ module.exports.deleteAll = async (req, res) => {
   req.flash("success", "xóa sản phẩm thành công!")
   res.redirect(req.get("Referrer") || "/")
 }
+// END DELETE ALL
 
-// kết thúc xóa nhiều
 
-
-// create a new product
-// GET /admin/products/create
+// CREATE PRODUCT
+// [GET] /admin/products/create
 module.exports.create = async (req, res) => {
   res.render('admin/pages/products/create.pug',
     {
       pageTitle: "Create new product"
     })
 }
-
+// [POST] CREATE PRODUCT /admin/products/create
 module.exports.createPost = async (req, res) => {
   req.body.price = parseInt(req.body.price)
   req.body.stock = parseInt(req.body.stock)
@@ -185,20 +207,25 @@ module.exports.createPost = async (req, res) => {
   }
 
   if (req.file) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`
+    console.log(req.file)
+    try {
+      const imagePath = req.file.path;
+      const imageUrl = await uploadImage(imagePath);
+      req.body[req.file.fieldname] = imageUrl
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to upload image' });
+    }
   }
   const product = new Product(req.body)
   await product.save()
 
   req.flash('success', 'thêm sp thành công')
-  res.redirect(req.get("Referrer") || "/")
+  res.redirect('back')
 }
+// END CREATE PRODUCT
 
-
-// END create a new product
-
-// GET edit product
-
+// EDIT PRODUCT
+// GET EDIT PRODUCT
 module.exports.edit = async (req, res) => {
   const id = await req.params.id
   const item = await Product.findById({ _id: id })
@@ -209,11 +236,9 @@ module.exports.edit = async (req, res) => {
     }
   )
 }
-
-// PATCH edit product
+// PATCH EDIT PRODUCT
 module.exports.editItem = async (req, res) => {
   const id = req.params.id.replace(":", ""); // Xóa dấu ":" nếu có
-
 
   // Chuyển đổi dữ liệu từ req.body
   req.body.price = parseInt(req.body.price) || 0;
@@ -222,7 +247,15 @@ module.exports.editItem = async (req, res) => {
   req.body.position = parseInt(req.body.position) || 1;
 
   if (req.file) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`;
+
+    try {
+      console.log(req.file)
+      const imagePath = req.file.path;
+      const imageUrl = await uploadImage(imagePath);
+      req.body[req.file.fieldname] = imageUrl
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to upload image' });
+    }
   }
 
   console.log("ID nhận được:", id);
@@ -231,7 +264,6 @@ module.exports.editItem = async (req, res) => {
 
   try {
     const updatedProduct = await Product.findByIdAndUpdate(id, req.body, { new: true });
-
     if (!updatedProduct) {
       req.flash("error", "Không tìm thấy sản phẩm!");
       return res.redirect("back");
@@ -245,10 +277,11 @@ module.exports.editItem = async (req, res) => {
     res.redirect("back");
   }
 };
+// END EDIT PRODUCT
 
-
+// [GET] DETAIL
 module.exports.detail = async (req, res) => {
-  try{
+  try {
     const id = req.params.id
     const item = await Product.findById(id)
 
@@ -257,7 +290,7 @@ module.exports.detail = async (req, res) => {
       item: item
     })
   }
-  catch(error){
+  catch (error) {
     console.log(error)
     res.redirect('back')
   }
