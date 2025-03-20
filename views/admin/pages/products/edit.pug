@@ -26,11 +26,12 @@ block content
     div(class='form-group')
       label.form-label(for="desc") Mô tả
       textarea(
-        class='form-control'
+        class='form-control textarea-mce'
         id='description'
         name='description'
         rows='5'
-      )= item.description
+      ) !{item.description}
+
 
     div(class='form-group')
       label.form-label(for="price") Giá
