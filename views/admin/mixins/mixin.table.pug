@@ -1,0 +1,57 @@
+mixin tableTree(records, level=1)
+  each product, index in records
+    - const prefix = Array(level+1).join('-- ')
+    tr
+      td  
+        input(
+          type="checkbox" 
+          name="id" 
+          value=product.id
+          )
+      td #{index + 1}
+      td #{prefix}#{product.title}
+      td 
+        img(src=product.thumbnail, alt=product.title, width="40")
+      td 
+        input(
+          type="number"
+          value=product.position 
+          style="width: 60px"
+          min="1"
+          name="position"
+        )
+      td 
+        //- Nếu trạng thái là "active" thì badge màu xanh
+        if(product.status == 'active')
+          button(
+            type='button'
+            data-status=product.status
+            data-id=product.id 
+            button-change-status
+            class='btn btn-sm btn-primary'
+          ) Active
+        else  
+          button(
+            type='button'
+            data-status=product.status
+            data-id=product.id 
+            button-change-status
+            class='btn btn-sm btn-danger'
+          ) Inactive
+      td 
+        a(
+          href=`${prefixAdmin}/product-category/detail/${product.id}`
+          class='btn btn-secondary btn-sm'
+        ) Chi tiết
+        a(
+          href=`${prefixAdmin}/product-category/edit/${product.id}`
+        ) Sửa
+        button(
+          class="btn btn-danger btn-sm m1-1"
+          button-delete
+          data-id=product.id
+        ) Xóa
+
+    if product.children && product.children.length > 0
+      +tableTree(product.children, (level+1))
+

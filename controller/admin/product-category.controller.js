@@ -1,5 +1,5 @@
 const ProductCategory = require('../../models/product-category.model')
-
+const helper = require('../../helper/createTree.js')
 
 const cloudinary = require('cloudinary').v2
 const streamifier = require('streamifier')
@@ -34,24 +34,29 @@ module.exports.productCategory = async (req, res) => {
   let find = {
     deleted: false
   }
-
-
   const records = await ProductCategory.find(find)
 
-  // xuất ra giao diện, những biến trong này có thể dùng đc ở file pug bên dưới
-  // server response về cho client
+  const newRecords = helper.createTree(records)
   res.render('admin/pages/product-category/index.pug',
     {
       pageTitle: 'Products Category',
-      records: records
+      records: newRecords
     }
   )
 }
 
 module.exports.create = async (req, res) => {
+  let find = {
+    deleted: false
+  }
+  const records = await ProductCategory.find(find)
+
+  const newRecords = helper.createTree(records)
+
   res.render('admin/pages/product-category/create.pug',
     {
       pageTitle: 'Create',
+      records: newRecords
     }
   )
 }
@@ -80,7 +85,7 @@ module.exports.createPost = async (req, res) => {
   await productCategory.save()
 
   req.flash('success', 'thêm sp thành công')
-  res.redirect('back')
+  res.redirect('/admin/products-category')
 }
 // END CREATE PRODUCT
 

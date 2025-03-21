@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/mixin.alert.pug
+include ../../mixins/mixin.selectTree.pug
 
 block content
 
@@ -24,14 +25,15 @@ block content
       ) 
 
     div(class='form-group')
-      label(for="title") Danh mục cha
-      input(
-        type='text'
-        class='form-control'
-        id='parent_id'
+      label(for="parent_id") Danh mục cha
+      select(
         name='parent_id'
-
-      ) 
+        id='parent_id'
+        class='form-control'
+      )
+        option(value='') -- Chọn danh mục cha --
+        if(records)
+          +selectTree(records)
     
     div(class='form-group')
       label(for="desc") Mô tả
